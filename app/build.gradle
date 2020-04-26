@@ -1,4 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -6,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.okc.learningassistant"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -18,6 +21,10 @@ android {
                 cppFlags ""
             }
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildTypes {
@@ -35,6 +42,12 @@ android {
     }
 }
 
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -43,4 +56,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'com.qmuiteam:qmui:2.0.0-alpha04'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation "com.jakewharton:butterknife:10.1.0"
+    kapt "com.jakewharton:butterknife-compiler:10.1.0"
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
 }
