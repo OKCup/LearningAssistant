@@ -1,2 +1,3 @@
 rootProject.name='LearningAssistant'
 include ':app'
+include ':opencv'
