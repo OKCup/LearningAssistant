@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -13,30 +14,73 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.okc.learningassistant.R;
 import com.okc.learningassistant.fragment.HomeFragment;
-import com.okc.learningassistant.fragment.MeFragment;
+import com.okc.learningassistant.fragment.PersonFragment;
 import com.okc.learningassistant.fragment.TextFragment;
 import com.okc.learningassistant.helper.AppPermissionUtil;
+import com.okc.learningassistant.helper.ToolBox;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.tab.QMUITab;
 import com.qmuiteam.qmui.widget.tab.QMUITabBuilder;
 import com.qmuiteam.qmui.widget.tab.QMUITabSegment;
 
-public class LaunchActicity extends AppCompatActivity{
+import org.opencv.android.OpenCVLoader;
 
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class LaunchActicity extends AppCompatActivity{
+    public static Context ParentContext;
+
+    private static String DATAPATH;
+    private static String tessdata;
+    private static String DEFAULT_LANGUAGE;
+    private static String DEFAULT_LANGUAGE_NAME;
+    private static String LANGUAGE_PATH ;
+
+    @BindView(R.id.Tab)
+    QMUITabSegment mTabSegment;
     private HomeFragment homeFragment;
     private TextFragment textFragment;
-    private MeFragment meFragment;
-    private QMUITabSegment mTabSegment;
+    private PersonFragment personFragment;
     Context mContext = this;
 
     private FragmentManager fragmentManager;
+
+    public static String getDATAPATH() {
+        return DATAPATH;
+    }
+
+    public static String getDefaultLanguage() {
+        return DEFAULT_LANGUAGE;
+    }
+
+    public static Context getParentContext() {
+        return ParentContext;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
+        ButterKnife.bind(this);
+        ParentContext = this;
+        //tessdata路径
+        DATAPATH = getExternalFilesDir("")+"/";
+        tessdata = DATAPATH + File.separator + "tessdata";
+        DEFAULT_LANGUAGE = "eng";
+        DEFAULT_LANGUAGE_NAME = DEFAULT_LANGUAGE + ".traineddata";
+        LANGUAGE_PATH = tessdata + File.separator + DEFAULT_LANGUAGE_NAME;
+
         getPermission();
-        mTabSegment = (QMUITabSegment)findViewById(R.id.Tab);
+
+        initOpenCV();
+        ToolBox.copyToSD(mContext,LANGUAGE_PATH, DEFAULT_LANGUAGE_NAME);
+
         initTabs();
         mTabSegment.selectTab(0);
         fragmentManager = getSupportFragmentManager();
@@ -65,31 +109,44 @@ public class LaunchActicity extends AppCompatActivity{
         });
     }
 
+    private void initOpenCV() {
+        System.loadLibrary("opencv_java4");
+        if (!OpenCVLoader.initDebug()) {
+            Toast.makeText(this, "Could not load OpenCV Lib.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Load OpenCV Lib Success.", Toast.LENGTH_SHORT).show();
+            Logger.getLogger("org.opencv.osgi").log(Level.INFO, "Successfully loaded OpenCV native library.");
+        }
+    }
+
     private void initTabs() {
 
         QMUITabBuilder builder = mTabSegment.tabBuilder();
         builder.setSelectedIconScale(1.2f)
                 .setTextSize(QMUIDisplayHelper.sp2px(getApplicationContext(), 13), QMUIDisplayHelper.sp2px(getApplicationContext(), 15))
+                .setColor(getResources().getColor(R.color.qmui_config_color_gray_5),getResources().getColor(R.color.app_color_blue))
                 .setDynamicChangeIconColor(true);
-        QMUITab component = builder
-                .setNormalDrawable(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.outline_home_white_48))
-                .setSelectedDrawable(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.outline_home_white_48))
+        QMUITab home = builder
+                //.setNormalDrawable(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.outline_home_white_48))
+                //.setSelectedDrawable(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.outline_home_white_48))
+                .setNormalDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.round_home_24))
+                .setSelectedDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.round_home_24))
                 .setText("首页")
                 .build(getApplicationContext());
-        QMUITab util = builder
-                .setNormalDrawable(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.outline_home_white_48))
-                .setSelectedDrawable(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.outline_home_white_48))
+        QMUITab text = builder
+                .setNormalDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.round_text_24))
+                .setSelectedDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.round_text_24))
                 .setText("文本")
                 .build(getApplicationContext());
-        QMUITab lab = builder
-                .setNormalDrawable(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.outline_home_white_48))
-                .setSelectedDrawable(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.outline_home_white_48))
+        QMUITab person = builder
+                .setNormalDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.round_person_24))
+                .setSelectedDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.round_person_24))
                 .setText("我的")
                 .build(getApplicationContext());
 
-        mTabSegment.addTab(component)
-                .addTab(util)
-                .addTab(lab);
+        mTabSegment.addTab(home)
+                .addTab(text)
+                .addTab(person);
     }
 
     private void showFragment(int page) {
@@ -117,12 +174,12 @@ public class LaunchActicity extends AppCompatActivity{
                 }
                 break;
             case 3:
-                if (meFragment != null) {
-                    ft.show(meFragment);
+                if (personFragment != null) {
+                    ft.show(personFragment);
                 }
                 else {
-                    meFragment = new MeFragment();
-                    ft.add(R.id.fl_content_launch, meFragment);
+                    personFragment = new PersonFragment();
+                    ft.add(R.id.fl_content_launch, personFragment);
                 }
                 break;
         }
@@ -134,8 +191,8 @@ public class LaunchActicity extends AppCompatActivity{
             ft.hide(homeFragment);
         if (textFragment != null)
             ft.hide(textFragment);
-        if (meFragment != null)
-            ft.hide(meFragment);
+        if (personFragment != null)
+            ft.hide(personFragment);
     }
 
 

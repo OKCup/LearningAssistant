@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.okc.learningassistant.R;
-import com.okc.learningassistant.fragment.MeFragment;
+import com.okc.learningassistant.fragment.PersonFragment;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.qmuiteam.qmui.widget.QMUITopBarLayout;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
@@ -129,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (retCode == 1) {
                             Toast.makeText(LoginActivity.this,"成功!",Toast.LENGTH_SHORT).show();
                             try {
-                                MeFragment.setContent(etName.getText().toString(),jsonObject.getString("mail"));
+                                PersonFragment.setContent(etName.getText().toString(),jsonObject.getString("mail"));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

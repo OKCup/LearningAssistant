@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.otaliastudios.cameraview.CameraView
+        android:id="@+id/mycamera"
+        android:keepScreenOn="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cameraMode="picture"
+        app:cameraGesturePinch="zoom"
+        app:cameraGestureTap="none"
+        app:cameraPictureSizeMaxWidth="3000"
+        app:cameraPictureSizeMaxHeight="3000">
+
+    </com.otaliastudios.cameraview.CameraView>
+    <RelativeLayout
+        android:id="@+id/lll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="top"
+        app:layout_drawOnPreview="true">
+
+        <ImageView
+            android:id="@+id/btn_light"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@mipmap/ic_light"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true">
+
+        </ImageView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        app:layout_drawOnPreview="true">
+
+
+        <ImageView
+            android:id="@+id/btn_album"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@mipmap/ic_album"
+            android:layout_marginLeft="50dp"
+            android:layout_centerVertical="true">
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/btn_take"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+            android:background="@mipmap/ic_takephoto">
+
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/btn_close"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:background="@mipmap/ic_close"
+            android:layout_centerVertical="true">
+
+        </ImageView>
+
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

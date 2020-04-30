@@ -3,7 +3,14 @@
     <!-- common -->
     <color name="white">#ffffff</color>
     <color name="green">#00ff00</color>
-    <color name="app_color_blue">#00A8E1</color>
+    <color name="home_bg_color_top">#3B93FF</color>
+    <color name="home_bg_color_bottom">#2185FF</color>
+    <color name="camera_bg_color_top">#509FFF</color>
+    <color name="camera_bg_color_bottom">#3891FF</color>
+    <color name="tag_bg_color">#4B9CFF</color>
+
+
+    <color name="app_color_blue">#3D9FFF</color>
     <color name="app_color_blue_disabled">#8000A8E1</color>
     <color name="app_color_blue_pressed">#c000A8E1</color>
 
