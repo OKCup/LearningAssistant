@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.okc.learningassistant.R;
+import com.okc.learningassistant.helper.RequestCode;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.qmuiteam.qmui.widget.QMUITopBarLayout;
 
@@ -262,11 +263,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                         //客户端自己判断是否成功。
                         if (retCode == 1) {
-                            Toast.makeText(RegisterActivity.this,"成功!",Toast.LENGTH_SHORT).show();
-                            setResult(1);
+                            Toast.makeText(RegisterActivity.this,"注册成功!",Toast.LENGTH_SHORT).show();
+                            setResult(RequestCode.REGISTER_COMPLETE);
                             finish();
                         } else {
-                            Toast.makeText(RegisterActivity.this,"错误:",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this,"注册失败！",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

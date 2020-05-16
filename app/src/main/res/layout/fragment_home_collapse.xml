@@ -1,163 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<com.qmuiteam.qmui.widget.QMUIWindowInsetLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/gradual_bg"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
-    <com.qmuiteam.qmui.widget.QMUIAppBarLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/gradual_bg">
-
-        <com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout
-            android:id="@+id/collapsing_topbar_layout"
+        android:layout_height="match_parent"
+        >
+        <com.qmuiteam.qmui.widget.QMUIAppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:qmui_collapsedTitleGravity="center"
-            app:qmui_contentScrim="?attr/qmui_config_color_blue"
-            app:qmui_expandedTitleGravity="center_horizontal|bottom"
-            app:qmui_expandedTitleMarginBottom="20dp"
-            app:qmui_statusBarScrim="?attr/qmui_config_color_blue"
-            app:qmui_followTopBarCommonSkin="true"
-            android:minHeight="?attr/qmui_topbar_height">
-
-            <RelativeLayout
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradual_bg"
+            android:fitsSystemWindows="true"
+            >
+            <com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout
+                android:id="@+id/collapsing_topbar_layout"
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
-                app:qmui_layout_collapseMode="parallax"
-                app:qmui_layout_collapseParallaxMultiplier="0.7">
-
-
-                <com.qmuiteam.qmui.widget.QMUIRadiusImageView
-                    android:id="@+id/camera_bg"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="130dp"
-                    android:layout_centerHorizontal="true"
-                    android:src="@mipmap/camera_with_bg"
-                    />
-                <!--
-                <ImageView
-                    android:id="@+id/camera"
-                    android:layout_width="230px"
-                    android:layout_height="192px"
-                    android:background="@drawable/baseline_photo_camera_24"
-                    android:layout_marginTop="150dp"
-                    android:layout_centerHorizontal="true"
-
-                    />
-                <TextView
-                    android:id="@+id/camera_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="拍照搜索"
-                    android:textSize="20dp"
-                    android:textColor="@color/qmui_config_color_white"
-                    android:layout_marginTop="225dp"
-                    android:layout_centerHorizontal="true"
-
-                    />
-                -->
-                <TextView
-                    android:id="@+id/text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/camera_bg">
-                </TextView>
-                <ImageView
-                    android:id="@+id/img_gray"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/text"/>
-                <ImageView
-                    android:id="@+id/img_binary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/img_gray"/>
-
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:qmui_collapsedTitleGravity="center"
+                app:qmui_contentScrim="?attr/qmui_config_color_blue"
+                app:qmui_expandedTitleGravity="center_horizontal|bottom"
+                app:qmui_expandedTitleMarginBottom="20dp"
+                app:qmui_statusBarScrim="?attr/qmui_config_color_blue"
+                app:qmui_followTopBarCommonSkin="false"
+                android:fitsSystemWindows="true"
+                android:minHeight="?attr/qmui_topbar_height">
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="20dp">
-
-
-                    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
-                        android:id="@+id/btn_home_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:fitsSystemWindows="true">
+                    <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                        android:id="@+id/camera_bg"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="130dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@mipmap/camera_with_bg"
+                        />
+                    <TextView
+                        android:id="@+id/text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        android:paddingLeft="45dp"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:paddingRight="10dp"
-                        android:text="登录/注册"
-                        android:textColor="@color/white"
+                        android:layout_below="@+id/camera_bg">
+                    </TextView>
+                    <ImageView
+                        android:id="@+id/img_gray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/text"/>
+                    <ImageView
+                        android:id="@+id/img_binary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/img_gray"/>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/layout_home_login"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp">
+
+                        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                            android:id="@+id/btn_home_login"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="5dp"
+                            android:paddingLeft="45dp"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:paddingRight="10dp"
+                            android:text="登录/注册"
+                            android:textColor="@color/white"
+                            android:textSize="15dp"
+                            app:qmui_backgroundColor="@color/tag_bg_color"
+                            app:qmui_borderWidth="0dp"
+                            app:qmui_isRadiusAdjustBounds="true"
+                            app:qmui_radiusBottomRight="50dp"
+                            app:qmui_radiusTopRight="50dp"
+                            app:qmui_radiusBottomLeft="50dp"
+                            app:qmui_radiusTopLeft="50dp"/>
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/twotone_account_circle_24"
+                            android:backgroundTint="@color/white"/>
+                    </RelativeLayout>
+                    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                        android:id="@+id/btn_ide_select"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="IDE"
                         android:textSize="15dp"
+                        android:textColor="@color/qmui_config_color_white"
+                        android:layout_marginTop="50dp"
+                        android:layout_alignParentRight="true"
+                        android:padding="10dp"
+                        app:qmui_radiusBottomRight="0dp"
+                        app:qmui_radiusTopRight="0dp"
+                        app:qmui_radiusBottomLeft="30dp"
+                        app:qmui_radiusTopLeft="30dp"
                         app:qmui_backgroundColor="@color/tag_bg_color"
                         app:qmui_borderWidth="0dp"
-                        app:qmui_isRadiusAdjustBounds="true"
-                        app:qmui_radiusBottomRight="50dp"
-                        app:qmui_radiusTopRight="50dp"
-                        app:qmui_radiusBottomLeft="50dp"
-                        app:qmui_radiusTopLeft="50dp"/>
-
-                    <ImageView
-                        android:id="@+id/home_account_icon"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/twotone_account_circle_24"
-                        android:backgroundTint="@color/white"/>
+                        app:qmui_isRadiusAdjustBounds="true" />
                 </RelativeLayout>
 
 
-
-                <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
-                    android:id="@+id/btn_compiler_select"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="编译器"
-                    android:textSize="15dp"
-                    android:textColor="@color/qmui_config_color_white"
-                    android:layout_marginTop="50dp"
-                    android:layout_alignParentRight="true"
-                    android:padding="10dp"
-                    app:qmui_radiusBottomRight="0dp"
-                    app:qmui_radiusTopRight="0dp"
-                    app:qmui_radiusBottomLeft="30dp"
-                    app:qmui_radiusTopLeft="30dp"
-                    app:qmui_backgroundColor="@color/tag_bg_color"
-                    app:qmui_borderWidth="0dp"
-                    app:qmui_isRadiusAdjustBounds="true" />
-            </RelativeLayout>
-
-
-            <com.qmuiteam.qmui.widget.QMUITopBar
-                android:id="@+id/topbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/qmui_topbar_height"
-                android:fitsSystemWindows="true"
-                app:qmui_layout_collapseMode="pin"
-                android:background="#00A8E1"
-                app:qmui_bottomDividerHeight="0px"/>
-        </com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout>
-    </com.qmuiteam.qmui.widget.QMUIAppBarLayout>
+                <com.qmuiteam.qmui.widget.QMUITopBar
+                    android:id="@+id/topbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/qmui_topbar_height"
+                    app:qmui_layout_collapseMode="pin"
+                    android:fitsSystemWindows="true"
+                    app:qmui_bottomDividerHeight="0px"/>
+            </com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout>
+        </com.qmuiteam.qmui.widget.QMUIAppBarLayout>
 
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/qmui_config_color_white"
-        android:scrollbars="none"
-        android:layout_marginBottom="49dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/qmui_config_color_white"
+            android:scrollbars="none"
+            android:fitsSystemWindows="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</com.qmuiteam.qmui.widget.QMUIWindowInsetLayout>

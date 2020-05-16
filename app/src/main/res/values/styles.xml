@@ -3,6 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="QMUI.Compat.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="status_bar_blue">@color/app_color_blue</item>
     </style>
 
 </resources>

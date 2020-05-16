@@ -65,7 +65,8 @@ public class MyCamera extends AppCompatActivity {
         camera.setPlaySounds(false);
         camera.setLifecycleOwner(this);
         camera.setGrid(Grid.DRAW_3X3);
-        camera.mapGesture(Gesture.PINCH, GestureAction.ZOOM);
+        //camera.mapGesture(Gesture.PINCH, GestureAction.ZOOM);
+        //camera.mapGesture(Gesture.TAP, GestureAction.AUTO_FOCUS);
 
         intent = getIntent();
         //打开相册
@@ -86,6 +87,7 @@ public class MyCamera extends AppCompatActivity {
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(RequestCode.PHOTO_CANCEL,intent);
                 finish();
             }
         });
@@ -194,10 +196,15 @@ public class MyCamera extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RequestCode.REQUEST_FINISH) {
-            setResult(RequestCode.RESULT_OK,intent);
+        if (resultCode == RequestCode.CROP_COMPLETE) {
+            setResult(RequestCode.PHOTO_COMPLETE,intent);
             finish();
         }
+        else if(resultCode == RequestCode.CROP_CANCEL){
+            setResult(RequestCode.PHOTO_CANCEL,intent);
+            finish();
+        }
+        //拍照成功，返回系统的RESULT_OK，为-1
         if(resultCode == RESULT_OK){
             ImageUri = data.getData();
             CropImage();

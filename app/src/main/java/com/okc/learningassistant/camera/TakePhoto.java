@@ -79,6 +79,7 @@ public class TakePhoto extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //
         if (requestCode == RequestCode.CAMERA_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 try {

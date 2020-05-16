@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.okc.learningassistant.R;
 import com.okc.learningassistant.fragment.PersonFragment;
+import com.okc.learningassistant.helper.RequestCode;
+import com.okc.learningassistant.helper.ToolBox;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.qmuiteam.qmui.widget.QMUITopBarLayout;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
@@ -46,11 +48,13 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.tvtest)
     TextView tvtest;
 
-    int RequestCode = 0x0001;
+    //int RequestCode = 0x0001;
     String body;
     JSONObject jsonObject;
-    int retCode;
+    int retCode = 0;
     String Url = "http://47.102.195.6:8082/Login.php";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,13 +67,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivityForResult(intent,RequestCode);
+                startActivityForResult(intent, RequestCode.REQUEST_REGISTER);
             }
         });
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                start(Url);
+                startLogin(etName.getText().toString(), etPassword.getText().toString());
             }
         });
     }
@@ -83,17 +87,17 @@ public class LoginActivity extends AppCompatActivity {
         });
         mTopBar.setTitle("登录").setTextColor(getResources().getColor(R.color.white));
     }
-    private void start(String url) {
+    public void startLogin(String name, String pwd) {
         //初始化okhttp客户端
         OkHttpClient client = new OkHttpClient.Builder().build();
         //创建post表单，获取username和password（没有做非空判断）
         RequestBody post = new FormBody.Builder()
-                .add("username", etName.getText().toString())
-                .add("password", etPassword.getText().toString())
+                .add("username", name)
+                .add("password", pwd)
                 .build();
         //开始请求，填入url，和表单
         final Request request = new Request.Builder()
-                .url(url)
+                .url(Url)
                 .post(post)
                 .build();
 
@@ -129,11 +133,17 @@ public class LoginActivity extends AppCompatActivity {
                         if (retCode == 1) {
                             Toast.makeText(LoginActivity.this,"成功!",Toast.LENGTH_SHORT).show();
                             try {
-                                PersonFragment.setContent(etName.getText().toString(),jsonObject.getString("mail"));
+                                LaunchActicity.setContent(etName.getText().toString(),jsonObject.getString("mail"));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            setResult(1);
+                            setResult(RequestCode.LOGIN_COMPLETE);
+                            LaunchActicity.setLoginStatus(true);
+                            //登录成功，则保存当前用户的用户名密码，用于自动登录
+                            ToolBox.createSDFile(LaunchActicity.getUserNamePath());
+                            ToolBox.createSDFile(LaunchActicity.getUserPwdPath());
+                            ToolBox.writeTXT(LaunchActicity.getUserNamePath(),etName.getText().toString());
+                            ToolBox.writeTXT(LaunchActicity.getUserPwdPath(),etPassword.getText().toString());
                             finish();
                         } else {
                             Toast.makeText(LoginActivity.this,"错误:",Toast.LENGTH_SHORT).show();

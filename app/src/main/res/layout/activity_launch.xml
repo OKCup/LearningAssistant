@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.qmuiteam.qmui.widget.QMUIWindowInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.LaunchActicity">
-    <RelativeLayout
+    <com.qmuiteam.qmui.widget.QMUIWindowInsetLayout
         android:id="@+id/fl_content_launch"
-        android:background="#dddddd"
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </RelativeLayout>
+        android:layout_height="match_parent"
+        android:layout_marginBottom="49dp"
+        android:fitsSystemWindows="true">
+    </com.qmuiteam.qmui.widget.QMUIWindowInsetLayout>
     <com.qmuiteam.qmui.widget.tab.QMUITabSegment
         android:id="@+id/Tab"
         android:layout_width="match_parent"
@@ -21,6 +21,7 @@
         android:textSize="12sp"
         app:qmui_tab_icon_position="top"
         app:qmui_topDividerColor="?attr/qmui_skin_support_color_separator"
-        app:qmui_topDividerHeight="1px" />
+        app:qmui_topDividerHeight="1px"
+        android:fitsSystemWindows="true"/>
 
-</com.qmuiteam.qmui.widget.QMUIWindowInsetLayout>
+</merge>

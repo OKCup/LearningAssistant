@@ -85,7 +85,6 @@ public class CropImage extends AppCompatActivity {
         cropImageView.setOnCropImageCompleteListener(new CropImageView.OnCropImageCompleteListener() {
             @Override
             public void onCropImageComplete(CropImageView view, CropImageView.CropResult result) {
-                Bitmap cropped_map = result.getBitmap();
                 try {
                     CroppedFile = ToolBox.createImageFile(mContext);
                 } catch (IOException e) {
@@ -94,7 +93,7 @@ public class CropImage extends AppCompatActivity {
                 CroppedUri = ToolBox.createImageUri(mContext,CroppedFile);
                 //ToolBox.saveBitmap(CroppedFile,cropped_map);
                 //保存裁剪后的图片
-                new saveTask().execute(cropped_map);
+                new saveTask().execute(result.getBitmap());
             }
         });
         /*
@@ -103,6 +102,7 @@ public class CropImage extends AppCompatActivity {
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(RequestCode.CROP_CANCEL, intent);
                 finish();
             }
         });
@@ -153,12 +153,17 @@ public class CropImage extends AppCompatActivity {
             if(status == "saved"){
                 ToolBox.saveToGallery(mContext,CroppedFile,CroppedUri);
                 HomeFragment.setCroppedUri(CroppedUri);
-                setResult(RequestCode.REQUEST_FINISH, intent);
+                setResult(RequestCode.CROP_COMPLETE, intent);
                 finish();
             }
             return null;
         }
 
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
     }
 
 }

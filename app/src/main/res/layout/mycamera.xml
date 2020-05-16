@@ -12,9 +12,7 @@
         android:layout_height="match_parent"
         app:cameraMode="picture"
         app:cameraGesturePinch="zoom"
-        app:cameraGestureTap="none"
-        app:cameraPictureSizeMaxWidth="3000"
-        app:cameraPictureSizeMaxHeight="3000">
+        app:cameraGestureTap="autoFocus">
 
     </com.otaliastudios.cameraview.CameraView>
     <RelativeLayout
