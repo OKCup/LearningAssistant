@@ -68,6 +68,7 @@ public class PersonFragment extends Fragment {
         mTopBar.addRightImageButton(R.drawable.outline_settings_24,R.id.topbar_right_setting_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(getActivity(), SettingActivity.class);
                 startActivityForResult(intent,RequestCode.REQUEST_SETTING);
             }
@@ -147,8 +148,8 @@ public class PersonFragment extends Fragment {
             itemMe.setDetailText(LaunchActicity.getEmail());
         }
         else if(!LaunchActicity.getLoginStatus()){
-            itemMe.setText(LaunchActicity.getUserName());
-            itemMe.setDetailText(LaunchActicity.getEmail());
+            itemMe.setText(Title);
+            itemMe.setDetailText(Detail);
         }
     }
     @Override

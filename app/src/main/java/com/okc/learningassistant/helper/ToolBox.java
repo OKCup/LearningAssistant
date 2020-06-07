@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Path;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,7 @@ import androidx.core.os.EnvironmentCompat;
 
 import com.okc.learningassistant.activity.LaunchActicity;
 import com.okc.learningassistant.activity.LoginActivity;
+import com.okc.learningassistant.widget.AutoExpandLinearLayout;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -41,6 +44,7 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -278,11 +282,36 @@ public class ToolBox {
         return content;
     }
 
+    //删除文件
     public static boolean deleteFile(String filePath) {
         File file = new File(filePath);
         if (file.isFile() && file.exists()) {
             return file.delete();
         }
         return false;
+    }
+
+    //从本地数据库中查找
+    public static Map<String, String> querySolution(String code, Context context){
+        ErrorDBHelper helper = new ErrorDBHelper(context,LaunchActicity.getDatabasePath());
+        SQLiteDatabase errDB = helper.openDatabase();
+        Map<String,String> result = helper.queryCode(code);
+        helper.closeDatabase();
+        return result;
+    }
+
+    //获取选中的checkbox
+    public static String getSelectContent(AutoExpandLinearLayout layout){
+        int count = layout.getChildCount();
+        String result = null;
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            CheckBox checkBox = (CheckBox) layout.getChildAt(i);
+            if (checkBox.isChecked()){
+                builder.append(checkBox.getText() + " ");
+            }
+        }
+        result = builder.toString();
+        return result;
     }
 }

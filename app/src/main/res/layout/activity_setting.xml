@@ -21,7 +21,6 @@
         android:textSize="30dp"
         android:textColor="@color/white"
         app:qmui_backgroundColor="@color/qmui_config_color_red"
-        app:qmui_borderWidth="0dp"
-        android:fitsSystemWindows="true"/>
+        app:qmui_borderWidth="0dp"/>
 
 </com.qmuiteam.qmui.widget.QMUIWindowInsetLayout>

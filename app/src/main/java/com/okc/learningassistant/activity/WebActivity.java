@@ -42,8 +42,9 @@ public class WebActivity extends AppCompatActivity {
     WebView searchWebView;
     Intent intent;
     public static String searchContent = null;
+    public static String hisURL = null;
     private String postUrl = "http://47.102.195.6:8082/QueryCollect.php";
-    String URL = "http://m.baidu.com/s?" +
+    private String URL = "http://m.baidu.com/s?" +
             "wd=" +
             searchContent +
             "&rsv_bp=0&ch=&tn=baidu&bar=&rsv_spt=3&ie=utf-8&rsv_sug3=3&rsv_sug=0&rsv_sug4=95&rsv_sug1=1&inputT=1001";
@@ -53,6 +54,10 @@ public class WebActivity extends AppCompatActivity {
 
     public static void setSearchContent(String searchContent) {
         WebActivity.searchContent = searchContent;
+    }
+
+    public static void setHisURL(String URL) {
+        WebActivity.hisURL = URL;
     }
 
     @Override
@@ -65,7 +70,12 @@ public class WebActivity extends AppCompatActivity {
         searchWebView.getSettings().setDomStorageEnabled(true);
         searchWebView.getSettings().setUserAgentString(userAgent);
         searchWebView.getSettings().setJavaScriptEnabled(true);
-        searchWebView.loadUrl(URL);
+        if(intent.getAction()==RequestCode.ACTION_SEARCH_WEB) {
+            searchWebView.loadUrl(URL);
+        }
+        else {
+            searchWebView.loadUrl(hisURL);
+        }
         searchWebView.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -91,7 +101,13 @@ public class WebActivity extends AppCompatActivity {
             public void onClick(View v) {
                 setResult(RequestCode.SEARCH_COMPLETE,intent);
                 HomeFragment.setNewHistory(searchWebView.getUrl(),searchWebView.getTitle());
-                finish();
+                if(searchWebView.canGoBack()){
+                    searchWebView.goBack();
+                }
+                else {
+                    finish();
+                }
+
             }
         });
     }

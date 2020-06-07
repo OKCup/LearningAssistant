@@ -22,10 +22,10 @@
                 android:layout_height="match_parent"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:qmui_collapsedTitleGravity="center"
-                app:qmui_contentScrim="?attr/qmui_config_color_blue"
+                app:qmui_contentScrim="@color/white"
                 app:qmui_expandedTitleGravity="center_horizontal|bottom"
                 app:qmui_expandedTitleMarginBottom="20dp"
-                app:qmui_statusBarScrim="?attr/qmui_config_color_blue"
+                app:qmui_statusBarScrim="@color/white"
                 app:qmui_followTopBarCommonSkin="false"
                 android:fitsSystemWindows="true"
                 android:minHeight="?attr/qmui_topbar_height">

@@ -1,17 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.qmuiteam.qmui.widget.QMUIWindowInsetLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.qmuiteam.qmui.widget.QMUIWindowInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.TextFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.qmuiteam.qmui.widget.QMUITopBarLayout
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_color_blue"
+        android:fitsSystemWindows="true"
+        />
+
+    <RelativeLayout
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="This is Fragment Text!"
-        android:background="@color/app_color_blue"/>
+        android:layout_marginTop="?attr/qmui_topbar_height"
+        android:layout_gravity="center_horizontal"
+        >
+        <EditText
+            android:id="@+id/et_content"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:hint="请输入要拆分的文本"
+            android:gravity="top"
+            android:background="@null"
+            />
 
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/btn_split"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_content"
+            android:paddingLeft="@dimen/dp_40"
+            android:paddingTop="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_40"
+            android:paddingBottom="@dimen/dp_10"
+            android:layout_centerInParent="true"
+            android:text="拆分"
+            android:textSize="20dp" />
+        <Space
+            android:id="@+id/spacer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_10"
+            android:layout_below="@id/btn_split"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/spacer"
+            android:background="@color/edit_text_bg"/>
+
+    </RelativeLayout>
 </com.qmuiteam.qmui.widget.QMUIWindowInsetLayout >

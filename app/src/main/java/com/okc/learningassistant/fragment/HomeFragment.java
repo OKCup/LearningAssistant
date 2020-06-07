@@ -34,6 +34,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.googlecode.tesseract.android.TessBaseAPI;
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.seg.common.Term;
@@ -45,6 +47,7 @@ import com.okc.learningassistant.adapter.HistoryAdapter;
 import com.okc.learningassistant.adapter.QDRecyclerViewAdapter;
 import com.okc.learningassistant.camera.MyCamera;
 import com.okc.learningassistant.helper.ErrorDBHelper;
+import com.okc.learningassistant.helper.Popups;
 import com.okc.learningassistant.helper.RequestCode;
 import com.okc.learningassistant.helper.ToolBox;
 import com.okc.learningassistant.widget.AutoExpandLinearLayout;
@@ -185,11 +188,13 @@ public class HomeFragment extends Fragment {
                 Log.i(TAG, "scrim: " + animation.getAnimatedValue());
                 if(Integer.parseInt(animation.getAnimatedValue().toString())==255){
                     mCollapsingTopBarLayout.setTitleEnabled(true);
+                    QMUIStatusBarHelper.setStatusBarLightMode(getActivity());
                     mCamera.setClickable(false);
                     Log.i(TAG,"111enter:true");
                 }
                 else {
                     mCollapsingTopBarLayout.setTitleEnabled(false);
+                    QMUIStatusBarHelper.setStatusBarDarkMode(getActivity());
                     mCamera.setClickable(true);
                     Log.i(TAG,"111enter:flase");
                 }
@@ -206,7 +211,7 @@ public class HomeFragment extends Fragment {
                 startActivityForResult(intent, RequestCode.REQUEST_PHOTO);
             }
         });
-        //语言选择
+        //编译器选择
         ideSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -272,7 +277,7 @@ public class HomeFragment extends Fragment {
     private void Init(){
         mCamera.setCircle(true);
         mCamera.setBorderWidth(0);
-        //setScaleAni(mCamera, 1, Float.parseFloat("1.1"), 2000);
+        setScaleAni(mCamera, 1, Float.parseFloat("1.1"), 2000);
         //setScaleAni(mCamera, 1, Float.parseFloat("1.1"), 2000);
         //setScaleAni(mCameraText, 1, Float.parseFloat("1.1"), 2000);
     }
@@ -285,7 +290,9 @@ public class HomeFragment extends Fragment {
         mCollapsingTopBarLayout.setTitleEnabled(false);
         mCollapsingTopBarLayout.setTitle("历史记录");
         mCollapsingTopBarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.qmui_config_color_black));
-        mCollapsingTopBarLayout.setContentScrimColor(getResources().getColor(R.color.qmui_config_color_white));
+        //mCollapsingTopBarLayout.setContentScrimColor(getResources().getColor(R.color.qmui_config_color_white));
+        //mCollapsingTopBarLayout.setContentScrim(getResources().getDrawable(R.drawable.camera_gradual_bg));
+        //mCollapsingTopBarLayout.setStatusBarScrimColor(getResources().getColor(R.color.qmui_config_color_white));
         mCollapsingTopBarLayout.setScrimAnimationDuration(1);
     }
 
@@ -297,6 +304,21 @@ public class HomeFragment extends Fragment {
         mRecyclerView.setLayoutManager(mPagerLayoutManager);
         //mRecyclerViewAdapter = new QDRecyclerViewAdapter();
         mRecyclerViewAdapter = new HistoryAdapter(listHistory);
+        // 设置点击事件
+        mRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+                Toast.makeText(getContext(), "onItemClick:"+position, Toast.LENGTH_SHORT).show();
+                HashMap<String,String> clickItem = (HashMap<String, String>) adapter.getItem(position);
+                Log.i("111adapterItem",clickItem.get("content"));
+                WebActivity.setHisURL(clickItem.get("content"));
+                WebActivity.setSearchContent(clickItem.get("title"));
+                Intent intent = new Intent(getContext(),WebActivity.class);
+                intent.setAction(RequestCode.ACTION_HISTORY_WEB);
+                startActivity(intent);
+
+            }
+        });
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
     }
 
@@ -308,8 +330,7 @@ public class HomeFragment extends Fragment {
             new imgProcessTask().execute();
         }
         else if(resultCode == RequestCode.LOGIN_COMPLETE){
-            btnLoginText = LaunchActicity.getUserName();
-            btnHomeLogin.setText(btnLoginText);
+            btnHomeLogin.setText(LaunchActicity.getUserName());
             queryHistory("queryall");
         }
         else if(resultCode == RequestCode.SEARCH_COMPLETE){
@@ -575,17 +596,19 @@ public class HomeFragment extends Fragment {
                     if(matcher.find())
                     {
                         Log.i("111code",matcher.group());
-                        Map<String,String> queryResult = querySolution(matcher.group().replaceAll(" ",""));
+                        Map<String,String> queryResult = ToolBox.querySolution(matcher.group().replaceAll(" ",""),mContext);
                         if(queryResult==null){
                             Log.i("111queryResult","Query Failed");
                         }
                         else {
                             Log.i("111queryResult",queryResult.get("solution"));
+                            createOfflineSearchResultPopup(mContext,queryResult.get("content"),queryResult.get("solution"));
                         }
                     }else{
                         System.out.println("nothing");
                         WebActivity.setSearchContent(searchContent);
                         Intent intent = new Intent(mContext, WebActivity.class);
+                        intent.setAction(RequestCode.ACTION_SEARCH_WEB);
                         startActivityForResult(intent,RequestCode.REQUEST_SEARCH);
                     }
                 }
@@ -701,13 +724,14 @@ public class HomeFragment extends Fragment {
                 .show(getView());
     }
 
+    /*
     private Map<String, String> querySolution(String code){
         ErrorDBHelper helper = new ErrorDBHelper(mContext,LaunchActicity.getDatabasePath());
         SQLiteDatabase errDB = helper.openDatabase();
         Map<String,String> result = helper.queryCode(code);
         helper.closeDatabase();
         return result;
-    }
+    }*/
 
     private String getSelectContent(AutoExpandLinearLayout layout){
         int count = layout.getChildCount();
@@ -856,6 +880,38 @@ public class HomeFragment extends Fragment {
 
 
 
+    public void createOfflineSearchResultPopup(Context context,String content,String solution){
+        QMUIFullScreenPopup offlineResultPopups = QMUIPopups.fullScreenPopup(context);
+        LayoutInflater inflater = getLayoutInflater();
+        View layoutOfflineResult = inflater.inflate(R.layout.layout_offline_search_result, null);
+        QMUILinearLayout linearLayout = (QMUILinearLayout)layoutOfflineResult.findViewById(R.id.layout);
+        TextView tvContent = (TextView)layoutOfflineResult.findViewById(R.id.content);
+        TextView tvSolution = (TextView)layoutOfflineResult.findViewById(R.id.solution);
+        linearLayout.setRadiusAndShadow(QMUIDisplayHelper.dp2px(context, 15),
+                QMUIDisplayHelper.dp2px(context, 50),
+                0.5f * 1f /100);
+        tvContent.setText("错误内容："+content);
+        tvSolution.setText("错误分析："+solution);
+        offlineResultPopups.addView(layoutOfflineResult)
+                .closeBtn(true)
+                .animStyle(QMUIPopup.ANIM_GROW_FROM_CENTER)
+                .onBlankClick(new QMUIFullScreenPopup.OnBlankClickListener() {
+                    @Override
+                    public void onBlankClick(QMUIFullScreenPopup popup) {
+                        Toast.makeText(context, "点击到空白区域", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .onDismiss(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        Toast.makeText(context, "onDismiss", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show(getView());
+    }
+
+
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         View view = getView();
@@ -867,6 +923,8 @@ public class HomeFragment extends Fragment {
                 }
                 else {
                     btnHomeLogin.setText(btnLoginText);
+                    listHistory.clear();
+                    InitRecyclerView();
                 }
             }
             view.requestApplyInsets();

@@ -19,4 +19,6 @@ public class RequestCode {
     public static int COLLECT_COMPLETE = 0x011;
     public static int CAMERA_REQUEST_CODE = 0x00000010;
     public static int RETURN_PHOTO = 0x0001;
+    public static String ACTION_SEARCH_WEB = "ACTION_SEARCH_WEB";
+    public static String ACTION_HISTORY_WEB = "ACTION_HISTORY_WEB";
 }

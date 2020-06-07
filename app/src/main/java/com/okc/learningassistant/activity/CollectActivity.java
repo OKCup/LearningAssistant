@@ -1,5 +1,6 @@
 package com.okc.learningassistant.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.okc.learningassistant.R;
 import com.okc.learningassistant.adapter.HistoryAdapter;
 import com.okc.learningassistant.fragment.HomeFragment;
@@ -64,7 +67,7 @@ public class CollectActivity extends AppCompatActivity {
     protected void initTopBar(){
         QMUIStatusBarHelper.translucent(this);
         //mTopBar.setSubTitle(searchContent).setTextColor(getResources().getColor(R.color.white));
-        mTopBar.setTitle("收藏");
+        mTopBar.setTitle("收藏").setTextColor(getResources().getColor(R.color.white));
         mTopBar.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +82,19 @@ public class CollectActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mPagerLayoutManager);
         //mRecyclerViewAdapter = new QDRecyclerViewAdapter();
         mRecyclerViewAdapter = new HistoryAdapter(listCollect);
+        mRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+                Toast.makeText(CollectActivity.this, "onItemClick:"+position, Toast.LENGTH_SHORT).show();
+                HashMap<String,String> clickItem = (HashMap<String, String>) adapter.getItem(position);
+                Log.i("111adapterItem",clickItem.get("content"));
+                WebActivity.setHisURL(clickItem.get("content"));
+                WebActivity.setSearchContent(clickItem.get("title"));
+                Intent intent = new Intent(CollectActivity.this,WebActivity.class);
+                intent.setAction(RequestCode.ACTION_HISTORY_WEB);
+                startActivity(intent);
+            }
+        });
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
     }
 

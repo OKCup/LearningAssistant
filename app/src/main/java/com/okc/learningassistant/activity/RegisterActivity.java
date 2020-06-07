@@ -98,7 +98,9 @@ public class RegisterActivity extends AppCompatActivity {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if((start-before+1)<3) {
+                Log.i("111start",String.valueOf(start));
+                Log.i("111before",String.valueOf(before));
+                if(s.length()<3) {
                     etName.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable_NO, null);
                     status_name = false;
                 }
@@ -121,7 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if((start-before+1)<11) {
+                if(s.length()<11) {
                     etPhoneNumber.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable_NO, null);
                     status_num = false;
                 }
@@ -145,7 +147,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if((start-before+1)<3) {
+                if(s.length()<3) {
                     etEmail.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable_NO, null);
                     status_mail = false;
                 }
@@ -169,7 +171,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if((start-before+1)<6) {
+                if(s.length()<6) {
                     etPassword.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable_NO, null);
                     status_pwd = false;
                 }
@@ -192,7 +194,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if((start-before+1)<6 ||
+                if(s.length()<6 ||
                     !etConfirmPwd.getText().toString().equals(etPassword.getText().toString())) {
                     etConfirmPwd.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable_NO, null);
                     status_confirm_pwn = false;

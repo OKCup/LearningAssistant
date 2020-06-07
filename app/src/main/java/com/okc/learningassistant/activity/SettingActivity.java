@@ -44,6 +44,6 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void initTopBar(){
-        mTopBar.setTitle("设置");
+        mTopBar.setTitle("设置").setTextColor(getResources().getColor(R.color.white));
     }
 }

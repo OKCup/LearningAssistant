@@ -12,7 +12,8 @@
         android:id="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_color_blue" />
+        android:background="@color/app_color_blue"
+        />
 
     <LinearLayout
         android:id="@+id/main_layout"
